@@ -8,7 +8,8 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 
 contract Token is ERC721, Ownable {
     using Counters for Counters.Counter;
-
+    uint256 constant public MAX_TOKENS = 8888;
+    uint256 constant public TOKEN_COST = 0;
     Counters.Counter private _tokenIdCounter;
 
     constructor() ERC721("Token", "TK") {}
@@ -36,5 +37,25 @@ contract Token is ERC721, Ownable {
         returns (string memory)
     {
         return string(abi.encodePacked(super.tokenURI(tokenId), ".json"));
+    }
+
+        
+    // Additional functions
+
+    function totalSupply() public view returns (uint256) {
+        return _tokenIdCounter.current();
+    }
+
+    modifier costs(uint256 _cost) {
+        require(msg.value >= _cost, "Insufficient funds.");
+        _;
+    }
+
+    function mint() public payable costs(TOKEN_COST) {
+        require(totalSupply() < MAX_TOKENS, "Minting limit reached.");
+        address to = msg.sender;
+        uint256 tokenId = _tokenIdCounter.current();
+        _tokenIdCounter.increment();
+        _safeMint(to, tokenId);
     }
 }
