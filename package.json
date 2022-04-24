@@ -1,0 +1,29 @@
+{
+  "name": "solidity-truffle-project",
+  "version": "1.0.0",
+  "description": "You can choose to deploy migrations in the `1_initial_migrations.js` file.",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jiricekcz/solidity-truffle-project.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jiricekcz/solidity-truffle-project/issues"
+  },
+  "homepage": "https://github.com/jiricekcz/solidity-truffle-project#readme",
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.5.0",
+    "@truffle/hdwallet-provider": "^2.0.3"
+  },
+  "devDependencies": {
+    "truffle-plugin-verify": "^0.5.21"
+  }
+}

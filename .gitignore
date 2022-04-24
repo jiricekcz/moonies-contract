@@ -1,0 +1,6 @@
+node_modules
+.secret
+.env
+infura_id.txt
+etherscan_api_key.txt
+build
