@@ -35,6 +35,6 @@ contract Token is ERC721, Ownable {
         override(ERC721)
         returns (string memory)
     {
-        return super.tokenURI(tokenId);
+        return string(abi.encodePacked(super.tokenURI(tokenId), ".json"));
     }
 }
