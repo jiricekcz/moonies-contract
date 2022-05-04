@@ -6,16 +6,20 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 
-contract Token is ERC721, Ownable {
+contract Moonies is ERC721, Ownable {
     using Counters for Counters.Counter;
     uint256 constant public MAX_TOKENS = 8888;
-    uint256 constant public TOKEN_COST = 0;
+    uint256 constant public TOKEN_COST = 0.04 * 1e18;
+    string baseURI = "https://metatdata.mooniesnft.xyz/";
     Counters.Counter private _tokenIdCounter;
 
-    constructor() ERC721("Token", "TK") {}
+    constructor() ERC721("Moonies", "MOON") {}
 
-    function _baseURI() internal pure override returns (string memory) {
-        return "ipfs://";
+    function _baseURI() internal view override returns (string memory) {
+        return baseURI;
+    }
+    function changeBaseURI(string memory _newBaseURI) public onlyOwner {
+        baseURI = _newBaseURI;
     }
 
     function safeMint(address to) public onlyOwner {
@@ -52,6 +56,14 @@ contract Token is ERC721, Ownable {
     }
 
     function mint() public payable costs(TOKEN_COST) {
+        require(totalSupply() < MAX_TOKENS, "Minting limit reached.");
+        address to = msg.sender;
+        uint256 tokenId = _tokenIdCounter.current();
+        _tokenIdCounter.increment();
+        _safeMint(to, tokenId);
+    }
+
+    function mintOwner() public payable onlyOwner {
         require(totalSupply() < MAX_TOKENS, "Minting limit reached.");
         address to = msg.sender;
         uint256 tokenId = _tokenIdCounter.current();

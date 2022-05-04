@@ -5,7 +5,7 @@
  * @example 
  * const CONTRACT_NAMES = ["MyNFT", "MyContract", "MyOtherContract"];
  */
-const CONTRACT_NAMES = ["Token"];
+const CONTRACT_NAMES = ["Moonies"];
 
 
 const contracts = CONTRACT_NAMES.map(name => artifacts.require(`./${name}`));
