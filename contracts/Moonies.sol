@@ -9,7 +9,7 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 contract Moonies is ERC721, Ownable {
     using Counters for Counters.Counter;
     uint256 public constant MAX_TOKENS = 8888;
-    uint256 public constant TOKEN_COST = 0.04 * 1e18;
+    uint256 public constant TOKEN_COST = 0.035 * 1e18;
     string baseURI = "https://metadata.mooniesnft.xyz/";
     Counters.Counter private _tokenIdCounter;
 
@@ -71,7 +71,7 @@ contract Moonies is ERC721, Ownable {
         require(totalSupply() + _amount < MAX_TOKENS, "Minting limit reached.");
         address to = msg.sender;
         for (uint256 i = 0; i < _amount; i++) {
-            uint256 tokenId = _tokenIdCounter.current();
+            uint256 tokenId = _tokenIdCounter.current();    
             _tokenIdCounter.increment();
             _safeMint(to, tokenId + i);
         }
