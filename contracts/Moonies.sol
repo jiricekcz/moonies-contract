@@ -73,7 +73,7 @@ contract Moonies is ERC721, Ownable {
         for (uint256 i = 0; i < _amount; i++) {
             uint256 tokenId = _tokenIdCounter.current();    
             _tokenIdCounter.increment();
-            _safeMint(to, tokenId + i);
+            _safeMint(to, tokenId);
         }
     }
 
