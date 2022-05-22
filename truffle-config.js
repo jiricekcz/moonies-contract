@@ -77,7 +77,7 @@ module.exports = {
         mainnet: {
             provider: () => new HDWalletProvider(mnemonic, `wss://mainnet.infura.io/ws/v3/${infuraId}`),
             gas: 5000000,
-            gasPrice: 5e9,
+            gasPrice: 20e9,
             network_id: 1
         }
         // Useful for private networks

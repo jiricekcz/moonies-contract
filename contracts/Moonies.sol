@@ -11,6 +11,7 @@ contract Moonies is ERC721, Ownable {
     uint256 public constant MAX_TOKENS = 8888;
     uint256 public constant TOKEN_COST = 0.035 * 1e18;
     string baseURI = "https://metadata.mooniesnft.xyz/";
+    bool public enabled = false;
     Counters.Counter private _tokenIdCounter;
 
     constructor() ERC721("Moonies", "MOON") {}
@@ -54,8 +55,12 @@ contract Moonies is ERC721, Ownable {
         require(msg.value >= _cost, "Insufficient funds.");
         _;
     }
+    modifier onlyEnabled() {
+        require(enabled, "Moonies is not enabled.");
+        _;
+    }
 
-    function mint() public payable costs(TOKEN_COST) {
+    function mint() public payable costs(TOKEN_COST) onlyEnabled {
         require(totalSupply() < MAX_TOKENS, "Minting limit reached.");
         address to = msg.sender;
         uint256 tokenId = _tokenIdCounter.current();
@@ -67,11 +72,12 @@ contract Moonies is ERC721, Ownable {
         public
         payable
         costs(TOKEN_COST * _amount)
+        onlyEnabled
     {
         require(totalSupply() + _amount < MAX_TOKENS, "Minting limit reached.");
         address to = msg.sender;
         for (uint256 i = 0; i < _amount; i++) {
-            uint256 tokenId = _tokenIdCounter.current();    
+            uint256 tokenId = _tokenIdCounter.current();
             _tokenIdCounter.increment();
             _safeMint(to, tokenId);
         }
@@ -96,5 +102,18 @@ contract Moonies is ERC721, Ownable {
             _tokenIdCounter.increment();
             _safeMint(to, tokenId);
         }
+    }
+
+    function release() public onlyOwner {
+        address to = msg.sender;
+        (bool sent, bytes memory data) = to.call{value: address(this).balance}(
+            ""
+        );
+        require(sent, "Failed to call release()");
+        data;
+    }
+
+    function setEnabled(bool _enabled) public onlyOwner {
+        enabled = _enabled;
     }
 }
